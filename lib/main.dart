@@ -1,6 +1,8 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
+
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:path_provider/path_provider.dart'; // استيراد path_provider
@@ -41,6 +43,15 @@ void main() async {
 
   await Hive.initFlutter(dir.path); // تهيئة Hive مع المسار الصحيح
   await Hive.openBox('language');
+  await Hive.openBox('token');
+  await Hive.openBox('id');
+  await Hive.openBox('email');
+  await Hive.openBox('mobile');
+  await Hive.openBox('jobCategoryid');
+  await Hive.openBox('managerId');
+  await Hive.openBox('firstName');
+  await Hive.openBox('lastName');
+  await Hive.openBox('role');
   ////
   ///
   // قفل الشاشة على الوضع العمودي فقط
@@ -91,7 +102,7 @@ class MyApp extends StatelessWidget {
           'hrlatter': (context) => HrLatter(),
           'faceid': (context) => FaceId(),
         },
-        home: Board(),
+        home:MainApp(),
       ),
     );
   }

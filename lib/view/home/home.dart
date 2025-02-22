@@ -140,7 +140,9 @@ class _Home extends State<Home> {
                         ),
                         MaterialButton(
                           onPressed: () {
-                            Navigator.of(context).pushNamed("checkinout");
+                            print(val.managerIdbox.get("managerId"));
+                            
+                            // Navigator.of(context).pushNamed("checkinout");
                           },
                           child: Container(
                             margin: EdgeInsets.symmetric(

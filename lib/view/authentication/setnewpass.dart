@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:teamhup/componant/buttonapp.dart';
 import 'package:teamhup/componant/colorsapp.dart';
 import 'package:teamhup/componant/inputapp.dart';
+import 'package:teamhup/componant/showModalBottomSheet.dart';
 import 'package:teamhup/provider/prov.dart';
 import 'package:provider/provider.dart';
 
@@ -14,6 +15,7 @@ class SetNewPass extends StatefulWidget {
 
 class _SetNewPass extends State<SetNewPass> {
   ColorsApp colorsApp = new ColorsApp();
+  ShowModalBottomSheet showModalBottomSheet = new ShowModalBottomSheet();
 
   @override
   Widget build(BuildContext context) {
@@ -122,11 +124,16 @@ class _SetNewPass extends State<SetNewPass> {
                           width: double.infinity,
                           height: 54,
                           func: () {
-                            Navigator.of(context).pushNamedAndRemoveUntil(
-                              "login", // اسم الشاشة التي تريد الانتقال إليها
-                              (Route<dynamic> route) =>
-                                  false, // تعني إزالة كل الشاشات السابقة
-                            );
+                            val.ResetPass();
+                            // showModalBottomSheet.bottomSheetCheck(context,
+                            //         () {
+                            //        Navigator.of(context).pushNamedAndRemoveUntil(
+                            //   "login", // اسم الشاشة التي تريد الانتقال إليها
+                            //   (Route<dynamic> route) =>
+                            //       false, // تعني إزالة كل الشاشات السابقة
+                            // );
+                            //     });
+                           
                           }),
                     ],
                   ),

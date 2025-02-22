@@ -6,6 +6,81 @@ import 'package:provider/provider.dart';
 
 class ShowModalBottomSheet {
   ColorsApp colorsApp = new ColorsApp();
+  bottomSheetCheck(BuildContext context, VoidCallback func) {
+    showModalBottomSheet(
+        backgroundColor: colorsApp.colorbody,
+        context: context,
+        builder: (context) {
+          return Consumer<Control>(builder: (context, val, child) {
+            return Container(
+              width: double.infinity,
+              child: val.data == null
+                  ? Center(
+                      child: CircularProgressIndicator(),
+                    )
+                  : Column(
+                      children: [
+                        Container(
+                          margin: EdgeInsets.all(20),
+                          color: colorsApp.colorgreyapp.withOpacity(0.5),
+                          height: 3,
+                          width: 60,
+                        ),
+                        Container(
+                          margin: EdgeInsets.all(20),
+                          child: val.data["status"] == true
+                              ? Image.asset("assets/images/accept.png")
+                              : Image.asset("assets/images/error.png"),
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(top: 20),
+                          child: Text(
+                            textAlign: TextAlign.center,
+                            val.data["status"] == true
+                                ? "Your request has been sent successfully"
+                                : "Your request has been sent faild",
+                            style: TextStyle(
+                                fontSize: 22, fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(top: 20, left: 20, right: 20),
+                          child: Text(
+                            textAlign: TextAlign.center,
+                            "${val.data["message"]}",
+                            style: TextStyle(
+                              color: colorsApp.colorgreyapp,
+                              fontSize: 14,
+                            ),
+                          ),
+                        ),
+                        Expanded(child: Container()),
+                        Container(
+                            margin: EdgeInsets.all(10),
+                            child: val.data["status"] == true
+                                ? ButtonApp(
+                                    title: "ok",
+                                    color: colorsApp.colorblackapp,
+                                    colorfont: colorsApp.colorwhiteapp,
+                                    width: double.infinity,
+                                    height: 50,
+                                    func: func)
+                                : ButtonApp(
+                                    title: "Back",
+                                    color: colorsApp.colorblackapp,
+                                    colorfont: colorsApp.colorwhiteapp,
+                                    width: double.infinity,
+                                    height: 50,
+                                    func: () {
+                                      Navigator.of(context).pop();
+                                    }))
+                      ],
+                    ),
+            );
+          });
+        });
+  }
+
   bottomSheetPayslip(BuildContext context) {
     showModalBottomSheet(
         backgroundColor: colorsApp.colorbody,
@@ -55,9 +130,10 @@ class ShowModalBottomSheet {
                         height: 50,
                         func: () {
                           Navigator.of(context).pushNamedAndRemoveUntil(
-                          "mainapp", // اسم الشاشة التي تريد الانتقال إليها
-                          (Route<dynamic> route) => false, // تعني إزالة كل الشاشات السابقة
-                        );
+                            "mainapp", // اسم الشاشة التي تريد الانتقال إليها
+                            (Route<dynamic> route) =>
+                                false, // تعني إزالة كل الشاشات السابقة
+                          );
                         }))
               ],
             ),
@@ -65,139 +141,183 @@ class ShowModalBottomSheet {
         });
   }
 
-  bottomSheetCheckIn(BuildContext context) {
+  bottomSheetCheckIn(BuildContext context, String message) {
     showModalBottomSheet(
         context: context,
         builder: (context) {
-          return Container(
-            child: Column(
-              children: [
-                Container(
-                  margin: EdgeInsets.all(20),
-                  color: colorsApp.colorgreyapp.withOpacity(0.5),
-                  height: 3,
-                  width: 60,
-                ),
-                Container(
-                  height: 90,
-                  //margin: EdgeInsets.all(0),
-                  child: Image.asset("assets/images/accept.png"),
-                ),
-                Container(
-                  margin: EdgeInsets.only(top: 20),
-                  child: Text(
-                    textAlign: TextAlign.center,
-                    "You’re checked in!",
-                    style: TextStyle(
-                      fontSize: 22,
-                      //fontWeight: FontWeight.bold
-                    ),
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.symmetric(horizontal: 10),
-                  child: Text(
-                    "07.58 AM",
-                    style: TextStyle(
-                        fontSize: 30, color: colorsApp.colorfontgreen),
-                  ),
-                ),
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 40),
-                  child: Row(
+          return message == "Authentication successful!"
+              ? Container(
+                  child: Column(
                     children: [
                       Container(
-                        height: 80,
-                        width: 80,
-                        decoration: BoxDecoration(
-                            color: colorsApp.colorgreyapp.withOpacity(0.5),
-                            borderRadius: BorderRadius.circular(20)),
+                        margin: EdgeInsets.all(20),
+                        color: colorsApp.colorgreyapp.withOpacity(0.5),
+                        height: 3,
+                        width: 60,
                       ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Container(
-                            alignment: Alignment.center,
-                            margin: EdgeInsets.only(
-                              left: 10,
-                            ),
-                            child: Text(
-                              textAlign: TextAlign.start,
-                              "Mike Cooper",
-                              style: TextStyle(
-                                  color: colorsApp.colorblackapp,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold),
-                            ),
+                      Container(
+                        height: 90,
+                        //margin: EdgeInsets.all(0),
+                        child: Image.asset("assets/images/accept.png"),
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(top: 20),
+                        child: Text(
+                          textAlign: TextAlign.center,
+                          "You’re checked in!",
+                          style: TextStyle(
+                            fontSize: 22,
+                            //fontWeight: FontWeight.bold
                           ),
-                          Container(
-                            margin: EdgeInsets.only(
-                              left: 10,
+                        ),
+                      ),
+                      Container(
+                        margin: EdgeInsets.symmetric(horizontal: 10),
+                        child: Text(
+                          "07.58 AM",
+                          style: TextStyle(
+                              fontSize: 30, color: colorsApp.colorfontgreen),
+                        ),
+                      ),
+                      Container(
+                        padding: EdgeInsets.symmetric(horizontal: 40),
+                        child: Row(
+                          children: [
+                            Container(
+                              height: 80,
+                              width: 80,
+                              decoration: BoxDecoration(
+                                  color:
+                                      colorsApp.colorgreyapp.withOpacity(0.5),
+                                  borderRadius: BorderRadius.circular(20)),
                             ),
-                            child: Text(
-                              textAlign: TextAlign.start,
-                              "Marketing Officer",
-                              style: TextStyle(
-                                color: colorsApp.colorgreyapp,
-                                fontSize: 14,
-                              ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Container(
+                                  alignment: Alignment.center,
+                                  margin: EdgeInsets.only(
+                                    left: 10,
+                                  ),
+                                  child: Text(
+                                    textAlign: TextAlign.start,
+                                    "Mike Cooper",
+                                    style: TextStyle(
+                                        color: colorsApp.colorblackapp,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                                Container(
+                                  margin: EdgeInsets.only(
+                                    left: 10,
+                                  ),
+                                  child: Text(
+                                    textAlign: TextAlign.start,
+                                    "Marketing Officer",
+                                    style: TextStyle(
+                                      color: colorsApp.colorgreyapp,
+                                      fontSize: 14,
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  margin: EdgeInsets.only(
+                                    left: 10,
+                                  ),
+                                  child: Text(
+                                    textAlign: TextAlign.start,
+                                    "DE3824-MO4",
+                                    style: TextStyle(
+                                      color: colorsApp.colorgreyapp,
+                                      fontSize: 14,
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
+                            Expanded(child: Container()),
+                            Container(
+                              child: Image.asset("assets/images/accept1.png"),
+                            )
+                          ],
+                        ),
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(top: 10, left: 20, right: 20),
+                        child: Text(
+                          textAlign: TextAlign.center,
+                          "Great job! Your attendance has been successfully logged. Hope you have a great day!",
+                          style: TextStyle(
+                            color: colorsApp.colorgreyapp,
+                            fontSize: 14,
                           ),
-                          Container(
-                            margin: EdgeInsets.only(
-                              left: 10,
-                            ),
-                            child: Text(
-                              textAlign: TextAlign.start,
-                              "DE3824-MO4",
-                              style: TextStyle(
-                                color: colorsApp.colorgreyapp,
-                                fontSize: 14,
-                              ),
-                            ),
-                          ),
-                        ],
+                        ),
                       ),
                       Expanded(child: Container()),
                       Container(
-                        child: Image.asset("assets/images/accept1.png"),
-                      )
+                          margin: EdgeInsets.symmetric(horizontal: 10),
+                          child: ButtonApp(
+                              title: "Back to Home",
+                              color: colorsApp.colorblackapp,
+                              colorfont: colorsApp.colorwhiteapp,
+                              width: double.infinity,
+                              height: 50,
+                              func: () {
+                                Navigator.of(context).pushNamedAndRemoveUntil(
+                                  "mainapp", // اسم الشاشة التي تريد الانتقال إليها
+                                  (Route<dynamic> route) =>
+                                      false, // تعني إزالة كل الشاشات السابقة
+                                );
+                              })),
+                      Expanded(child: Container()),
                     ],
                   ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(top: 10, left: 20, right: 20),
-                  child: Text(
-                    textAlign: TextAlign.center,
-                    "Great job! Your attendance has been successfully logged. Hope you have a great day!",
-                    style: TextStyle(
-                      color: colorsApp.colorgreyapp,
-                      fontSize: 14,
-                    ),
+                )
+              : Container(
+                  height: 300,
+                  child: Column(
+                    children: [
+                      Container(
+                        margin: EdgeInsets.all(20),
+                        color: colorsApp.colorgreyapp.withOpacity(0.5),
+                        height: 3,
+                        width: 60,
+                      ),
+                      Container(
+                        height: 90,
+                        //margin: EdgeInsets.all(0),
+                        child: Image.asset("assets/images/error.png"),
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(top: 20),
+                        child: Text(
+                          textAlign: TextAlign.center,
+                          "Error",
+                          style: TextStyle(
+                            fontSize: 22,
+                            //fontWeight: FontWeight.bold
+                          ),
+                        ),
+                      ),
+                      Container(
+                          margin: EdgeInsets.symmetric(horizontal: 10),
+                          child: ButtonApp(
+                              title: "Back",
+                              color: colorsApp.colorblackapp,
+                              colorfont: colorsApp.colorwhiteapp,
+                              width: double.infinity,
+                              height: 50,
+                              func: () {
+                                Navigator.of(context).pop();
+                              })),
+                    ],
                   ),
-                ),
-                Expanded(child: Container()),
-                Container(
-                    margin: EdgeInsets.symmetric(horizontal: 10),
-                    child: ButtonApp(
-                        title: "Back to Home",
-                        color: colorsApp.colorblackapp,
-                        colorfont: colorsApp.colorwhiteapp,
-                        width: double.infinity,
-                        height: 50,
-                        func: () {
-                          Navigator.of(context).pushNamedAndRemoveUntil(
-                          "mainapp", // اسم الشاشة التي تريد الانتقال إليها
-                          (Route<dynamic> route) => false, // تعني إزالة كل الشاشات السابقة
-                        );
-                        })),
-                Expanded(child: Container()),
-              ],
-            ),
-          );
+                );
         });
   }
+
   bottomSheetCheckOut(BuildContext context) {
     showModalBottomSheet(
         context: context,
@@ -319,7 +439,9 @@ class ShowModalBottomSheet {
                         colorfont: colorsApp.colorwhiteapp,
                         width: double.infinity,
                         height: 50,
-                        func: () {Navigator.of(context).pop();})),
+                        func: () {
+                          Navigator.of(context).pop();
+                        })),
                 Expanded(child: Container()),
               ],
             ),
@@ -535,7 +657,9 @@ class ShowModalBottomSheet {
                                 colorfont: colorsApp.colorwhiteapp,
                                 width: double.infinity,
                                 height: 50,
-                                func: () {Navigator.of(context).pop();})),
+                                func: () {
+                                  Navigator.of(context).pop();
+                                })),
                       ),
                       Expanded(
                         child: Container(
@@ -549,7 +673,8 @@ class ShowModalBottomSheet {
                                 func: () {
                                   Navigator.of(context).pushNamedAndRemoveUntil(
                                     "board", // اسم الشاشة التي تريد الانتقال إليها
-                                    (Route<dynamic> route) => false, // تعني إزالة كل الشاشات السابقة
+                                    (Route<dynamic> route) =>
+                                        false, // تعني إزالة كل الشاشات السابقة
                                   );
                                 })),
                       ),
@@ -719,7 +844,9 @@ class ShowModalBottomSheet {
                     colorfont: colorsApp.colorwhiteapp,
                     width: double.infinity,
                     height: 50,
-                    func: () {Navigator.of(context).pop();})
+                    func: () {
+                      Navigator.of(context).pop();
+                    })
               ],
             ),
           );

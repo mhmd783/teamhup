@@ -1,9 +1,12 @@
+import 'dart:io';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:teamhup/componant/showModalBottomSheet.dart';
 import 'package:teamhup/provider/api.dart';
 
 class Control extends ChangeNotifier {
+  //all variablse and function her use in new statemangment 
   Api api = new Api();
   double sliderValue = 30.0;
   int screenBoard = 1;
@@ -93,7 +96,8 @@ class Control extends ChangeNotifier {
       holiday = 'unpaid';
     }
     notifyListeners();
-  }
+  } 
+  
 
   bool showFirstImage = true;
   double progress = 0.0;
@@ -105,9 +109,121 @@ class Control extends ChangeNotifier {
     showFirstImage = !showFirstImage;
     notifyListeners();
     await Future.delayed(Duration(seconds: 1));
-    showBottomSheet.bottomSheetCheckIn(context);
+    showBottomSheet.bottomSheetCheckIn(context,"Authentication successful!");
     notifyListeners();
     progress = 0.0;
     showFirstImage = !showFirstImage;
+  }
+  ///apis 
+  var data;
+
+  late Box tokenbox = Hive.box("token");
+  late Box idbox = Hive.box("id");
+  late Box emailbox = Hive.box("email");
+  late Box mobilebox = Hive.box("mobile");
+  late Box jobCategoryIdbox = Hive.box("jobCategoryid");
+  late Box managerIdbox = Hive.box("managerId");
+  late Box firstNamebox = Hive.box("firstName");
+  late Box lastNamebox = Hive.box("lastName");
+  late Box rolebox = Hive.box("role");
+  
+
+  var login ;
+  Login()async{
+    login=null;
+    data=null;
+    login = await api.LoginUser();
+    print(login);
+    print(login);
+    print(login);
+    data=login;
+    if(login!=null)
+    {
+      if(login['status']== true){
+        tokenbox.put("toke", "${login['data']['token']}");
+        idbox.put("id", "${login['data']['employee']['_id']}");
+        emailbox.put("email", "${login['data']['employee']['email']}");
+        mobilebox.put("mobile", "${login['data']['employee']['mobile']}");
+        jobCategoryIdbox.put("jobCategoryId", "${login['data']['employee']['jobCategory']}");
+        managerIdbox.put("managerId", "${login['data']['employee']['managerId']}");
+        firstNamebox.put("firstName", "${login['data']['employee']['firstName']}");
+        lastNamebox.put("lastName", "${login['data']['employee']['lastName']}");
+        rolebox.put("role", "${login['data']['employee']['role']}");
+        print(rolebox.get("role"));
+      }
+    }
+    notifyListeners();
+  }
+  var forget ;
+  Forget()async{
+    forget=null;
+    data=null;
+    forget = await api.Forget();
+    print(forget);
+    print(forget);
+    print(forget);
+    data=forget;
+    
+    notifyListeners();
+  }
+  var verfyforget ;
+  VerfyForget()async{
+    verfyforget=null;
+    data=null;
+    verfyforget = await api.VerfyForget();
+    print(verfyforget);
+    print(verfyforget);
+    print(verfyforget);
+    data=verfyforget;
+    
+    notifyListeners();
+  }var resetpass ;
+  ResetPass()async{
+    resetpass=null;
+    data=null;
+    resetpass = await api.ResetPass();
+    print(resetpass);
+    print(resetpass);
+    print(resetpass);
+    data=resetpass;
+    
+    notifyListeners();
+  }
+
+
+  File ?imageFilePaySlip ;
+  void uploadImageProdect() async {
+    try {
+      // فتح نافذة لاختيار ملف
+      FilePickerResult? result = await FilePicker.platform.pickFiles(
+        type: FileType.image,
+      );
+
+      if (result != null) {
+        imageFilePaySlip = File(result.files.single.path!);
+
+        print(imageFilePaySlip!.path);
+        print("image$imageFilePaySlip");
+        notifyListeners();
+      }
+    } catch (e) {
+      print('حدث خطأ أثناء رفع الصورة: $e');
+    }
+    notifyListeners();
+  }
+  var addprodect;
+  AddPaySlip(BuildContext context) async {
+    addprodect = null;
+    data = null;
+    addprodect = await api.AddPaySlip(imageFilePaySlip!, tokenbox.get("token"));
+    
+    if (context.mounted) {
+      Navigator.of(context).pop();
+      
+      print(addprodect);
+    }
+    data = addprodect;
+    print("end");
+    notifyListeners();
   }
 }

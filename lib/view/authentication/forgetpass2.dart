@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:teamhup/componant/buttonapp.dart';
 import 'package:teamhup/componant/colorsapp.dart';
 import 'package:teamhup/componant/inputapp.dart';
+import 'package:teamhup/componant/showModalBottomSheet.dart';
 import 'package:teamhup/provider/prov.dart';
 import 'package:provider/provider.dart';
 
@@ -15,6 +16,7 @@ class ForgetPass2 extends StatefulWidget {
 
 class _ForgetPass2 extends State<ForgetPass2> {
   ColorsApp colorsApp = new ColorsApp();
+  ShowModalBottomSheet showModalBottomSheet = new ShowModalBottomSheet();
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +51,7 @@ class _ForgetPass2 extends State<ForgetPass2> {
                       style: TextStyle(fontSize: 14),
                       children: [
                         TextSpan(
-                          text: "osamdiab1995@gmail.com", // النص الغامق
+                          text: "${val.api.emailforgetpass.text}", // النص الغامق
                           style: TextStyle(
                               fontWeight: FontWeight.bold), // نمط الغامق
                         ),
@@ -66,50 +68,49 @@ class _ForgetPass2 extends State<ForgetPass2> {
                   child: Row(
                     children: [
                       Expanded(
-                        child: Container(
-                          margin: EdgeInsets.symmetric(horizontal: 3),
-                          child: InputCode(
-                              hint: "",
-                              controler: val.api.code1,
-                              keyboard: TextInputType.number),
+                          child: Container(
+                            child: InputCode(
+                                hint: "*",
+                                controler: val.api.code1,
+                                keyboard: TextInputType.number),
+                          ),
                         ),
-                      ),
-                      Expanded(
-                        child: Container(
-                          margin: EdgeInsets.symmetric(horizontal: 3),
+                        Expanded(
+                            child: Container(
                           child: InputCode(
-                              hint: "",
+                              hint: "*",
                               controler: val.api.code2,
                               keyboard: TextInputType.number),
+                        )),
+                        Expanded(
+                          child: Container(
+                            child: InputCode(
+                                hint: "*",
+                                controler: val.api.code3,
+                                keyboard: TextInputType.number),
+                          ),
                         ),
-                      ),
-                      Expanded(
-                        child: Container(
-                          margin: EdgeInsets.symmetric(horizontal: 3),
+                        Expanded(
+                            child: Container(
                           child: InputCode(
-                              hint: "",
-                              controler: val.api.code3,
-                              keyboard: TextInputType.number),
-                        ),
-                      ),
-                      Expanded(
-                        child: Container(
-                          margin: EdgeInsets.symmetric(horizontal: 3),
-                          child: InputCode(
-                              hint: "",
+                              hint: "*",
                               controler: val.api.code4,
                               keyboard: TextInputType.number),
-                        ),
-                      ),
-                      Expanded(
-                        child: Container(
-                          margin: EdgeInsets.symmetric(horizontal: 3),
+                        )),
+                        Expanded(
+                            child: Container(
                           child: InputCode(
-                              hint: "",
+                              hint: "*",
                               controler: val.api.code5,
                               keyboard: TextInputType.number),
-                        ),
-                      ),
+                        )),
+                        Expanded(
+                            child: Container(
+                          child: InputCode(
+                              hint: "*",
+                              controler: val.api.code6,
+                              keyboard: TextInputType.number),
+                        )),
                     ],
                   ),
                 ),
@@ -122,7 +123,9 @@ class _ForgetPass2 extends State<ForgetPass2> {
                           color: colorsApp.colorgreyapp, fontSize: 14),
                     ),
                     TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          val.Forget();
+                        },
                         child: Text(
                           "Resend email",
                           style: TextStyle(
@@ -150,7 +153,17 @@ class _ForgetPass2 extends State<ForgetPass2> {
                         colorfont: colorsApp.colorwhiteapp,
                         width: double.infinity,
                         height: 50,
-                        func: () {Navigator.of(context).pushNamed("setnewpass");}),
+                        func: () {
+                          val.VerfyForget();
+                          
+                          showModalBottomSheet.bottomSheetCheck(context,
+                                    () {
+                                  Navigator.of(context).pushNamed("setnewpass");
+                                });
+                          
+                          }),
+
+
                   ),
                 )
               ],

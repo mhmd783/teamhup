@@ -43,7 +43,7 @@ class _CheckFace extends State<CheckFace> {
             ),
             MaterialButton(
               onPressed: () {
-                showBottomSheet.bottomSheetCheckIn(context);
+                showBottomSheet.bottomSheetCheckIn(context,"Authentication successful!");
               },
               child: Container(
                 height: 100,

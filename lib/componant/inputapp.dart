@@ -252,34 +252,25 @@ class InputCode extends StatelessWidget {
             }
             return null;
           },
+          onChanged: (value) {
+            if (value.length == 1) {
+              FocusScope.of(context).nextFocus();
+            }
+          },
+          maxLength: 1,
           textAlign: TextAlign.center,
           keyboardType: keyboard,
           controller: controler,
           decoration: InputDecoration(
-            hintText: hint,
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10),
-              borderSide: BorderSide(color: colorsApp.colorbordernotactive),
-            ),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10),
-              borderSide: BorderSide(
-                  color:
-                      colorsApp.colorbordernotactive), // لون الحافة عند التفعيل
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10),
-              borderSide: BorderSide(
-                  width: 2,
-                  color: colorsApp.colorborderactive), // لون الحافة عند التركيز
-            ),
-          ),
+              hintText: hint,
+              hintStyle: TextStyle(fontSize: 12,color: colorsApp.colorblackapp),
+              border:
+                  OutlineInputBorder(borderRadius: BorderRadius.circular(15))),
         ),
       );
     });
   }
 }
-
 class InputMessage extends StatelessWidget {
   InputMessage({
     super.key,

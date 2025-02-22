@@ -49,10 +49,13 @@ class _FaceIdState extends State<FaceId> {
       _showMessage("Authentication failed.");
     }
   }
-
+  
   // عرض رسالة
   void _showMessage(String message) {
-    showBottomSheet.bottomSheetCheckIn(context);
+    print(message);//Authentication successful! //  Authentication failed.
+    print(message);
+    print(message);
+    showBottomSheet.bottomSheetCheckIn(context,message);
   }
 
   @override
